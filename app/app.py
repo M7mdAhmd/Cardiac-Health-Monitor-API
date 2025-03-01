@@ -34,11 +34,15 @@ def load_model():
     feature_weights = torch.tensor([0.25, 0.20, 0.15, 0.15, 0.10, 0.08, 0.05, 0.02], dtype=torch.float32)
     
     model = WeightedDNN(input_size, hidden_size, output_size, feature_weights)
-    model.load_state_dict(torch.load("disease_prediction_model.pth"))
+    # Use absolute path relative to app.py
+    model_path = os.path.join(os.path.dirname(__file__), "disease_prediction_model.pth")
+    model.load_state_dict(torch.load(model_path))
     model.eval()
     
-    scaler = joblib.load("scaler.pkl")
-    encoder = joblib.load("encoder.pkl")
+    scaler_path = os.path.join(os.path.dirname(__file__), "scaler.pkl")
+    encoder_path = os.path.join(os.path.dirname(__file__), "encoder.pkl")
+    scaler = joblib.load(scaler_path)
+    encoder = joblib.load(encoder_path)
     
     return model, scaler, encoder
 
